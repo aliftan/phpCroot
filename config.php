@@ -1,16 +1,16 @@
 <?php
-/* Database credentials. Assuming you are running MySQL
-server with default setting (user 'root' with no password) */
+/* Database kredensial Dengan asumsi Anda menjalankan MySQL
+server dengan setting default (user 'root' tanpa password) */
 define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root');
 define('DB_PASSWORD', '');
-define('DB_NAME', 'test'); //your database name
+define('DB_NAME', 'test'); // nama database anda
  
-/* Attempt to connect to MySQL database */
+/* Mencoba terhubung ke database MySQL */
 	$mysqli = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
 	 
-	// Check connection
+	// Periksa koneksi
 	if($mysqli === false){
-	    die("ERROR: Could not connect. " . $mysqli->connect_error);
+	    die("KESALAHAN: Tidak dapat terhubung. " . $mysqli->connect_error);
 	}
 ?> 

@@ -1,57 +1,57 @@
 <?php  
-   // Include config file
+   // Sertakan file konfigurasi
    require_once 'config.php';
     
-   // Define variables and initialize with empty values
+   // Tentukan variabel dan inisialisasi dengan nilai kosong
    $name = $color = "";
    $name_err = $color_err = "";
     
-   // Processing form data when form is submitted
+   // Memproses data formulir saat form diajukan
    if($_SERVER["REQUEST_METHOD"] == "POST"){
-       // Validate name
+       // Validasi nama
        $input_name = trim($_POST["name"]);
        if(empty($input_name)){
-           $name_err = "Please enter a name.";
+           $name_err = "Harap masukkan sebuah nama.";
        } else{
            $name = $input_name;
        }
        
-       // Validate Color
+       // Validasi Warna
        $input_color = trim($_POST["color"]);
        if(empty($input_color)){
-           $color_err = 'Please enter an color.';     
+           $color_err = "Silahkan masukkan warna.";     
        } else{
            $color = $input_color;
        }       
        
-       // Check input errors before inserting in database
+       // Periksa kesalahan masukan sebelum memasukkan ke dalam database
        if(empty($name_err) && empty($color_err)){
-           // Prepare an insert statement
+           // Siapkan sebuah pernyataan insert
            $sql = "INSERT INTO label (name, color) VALUES (?, ?)";
     
            if($stmt = $mysqli->prepare($sql)){
-               // Bind variables to the prepared statement as parameters
+               // Bind variabel ke pernyataan yang disiapkan sebagai parameter
                $stmt->bind_param("ss", $param_name, $param_color);
                
-               // Set parameters
+               // Tetapkan parameter
                $param_name = $name;
                $param_color = $color;
                
-               // Attempt to execute the prepared statement
+               // Mencoba untuk melaksanakan pernyataan yang telah disiapkan
                if($stmt->execute()){
-                   // Records created successfully. Redirect to landing page
+                   // Catatan berhasil dibuat. Arahkan ulang ke halaman arahan
                    header("location: index.php");
                    exit();
                } else{
-                   echo "Something went wrong. Please try again later.";
+                   echo "Ada yang salah. Silakan coba lagi nanti.";
                }
            }
             
-           // Close statement
+           // Tutup pernyataan
            $stmt->close();
        }
        
-       // Close connection
+       // Tutup koneksi
        $mysqli->close();
    }
    ?>
@@ -62,7 +62,7 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <title>Create Label</title>
-      <!-- add favicon -->
+      <!-- tambahkan favicon -->
       <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -84,9 +84,9 @@
             <div class="row">
                <div class="col-md-12">
                   <div class="page-header">
-                     <h2>Create New Label</h2>
+                     <h2>Buat Label Baru</h2>
                   </div>
-                  <p>Please fill this form and submit to add employee record to the database.</p>
+                  <p>Silahkan isi formulir ini.</p>
                   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                      <div class="form-group <?php echo (!empty($name_err)) ? 'has-error' : ''; ?>">
                         <label>Name</label>

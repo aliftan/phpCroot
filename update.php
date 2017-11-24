@@ -1,109 +1,109 @@
 <?php 
-// Include config file
+// Sertakan file konfigurasi
 require_once 'config.php';
  
-// Define variables and initialize with empty values
+// Tentukan variabel dan inisialisasi dengan nilai kosong
 $name = $color = "";
 $name_err = $color_err = "";
  
-// Processing form data when form is submitted
+// Memproses data formulir saat form diajukan
 if(isset($_POST["name"]) && !empty($_POST["name"])){
-    // Get hidden input value
+    // Dapatkan nilai input tersembunyi
     $id = $_GET["id"];
     
-    // Validate name
+    // Validasi nama
     $input_name = trim($_POST["name"]);
     if(empty($input_name)){
-        $name_err = "Please enter a name.";
+        $name_err = "Harap masukkan sebuah nama.";
     } else{
         $name = $input_name;
     }
     
-    // Validate color color
+    // Validasi warna warna
     $input_color = trim($_POST["color"]);
     if(empty($input_color)){
-        $color_err = 'Please enter an color.';     
+        $color_err = 'Silahkan masukkan warna.';     
     } else{
         $color = $input_color;
     }
     
     
-    // Check input errors before inserting in database
+    // Periksa kesalahan masukan sebelum memasukkan ke dalam database
     if(empty($name_err) && empty($color_err)){
-        // Prepare an update statement
+        // Siapkan sebuah pernyataan update
         $sql = "UPDATE label SET name=?, color=? WHERE id=?";
  
         if($stmt = $mysqli->prepare($sql)){
-            // Bind variables to the prepared statement as parameters
+            // Bind variabel ke pernyataan yang disiapkan sebagai parameter
             $stmt->bind_param("ssi", $param_name, $param_color, $param_id);
             
-            // Set parameters
+            // Tetapkan parameter
             $param_name = $name;
             $param_color = $color;
             $param_id = $id;
             
-            // Attempt to execute the prepared statement
+            // Mencoba untuk melaksanakan pernyataan yang telah disiapkan
             if($stmt->execute()){
-                // Records updated successfully. Redirect to landing page
+                // Catatan berhasil diperbarui. Arahkan ulang ke halaman arahan
                 header("location: index.php");
                 exit();
             } else{
-                echo "Something went wrong. Please try again later.";
+                echo "Ada yang salah. Silakan coba lagi nanti.";
             }
         }
          
-        // Close statement
+        // Tutup pernyataan
         $stmt->close();
     }
 
-    // Close connection
+    // Tutup koneksi
     $mysqli->close();
 
 
 } else{
-    // Check existence of id parameter before processing further
+    // Cek adanya parameter id sebelum melanjutkan lebih jauh
     if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
-        // Get URL parameter
+        // Dapatkan parameter URL
         $id =  trim($_GET["id"]);
         
-        // Prepare a select statement
+        // Siapkan pernyataan pilih
         $sql = "SELECT * FROM label WHERE id = ?";
         if($stmt = $mysqli->prepare($sql)){
-            // Bind variables to the prepared statement as parameters
+            // Bind variabel ke pernyataan yang disiapkan sebagai parameter
             $stmt->bind_param("i", $param_id);
             
-            // Set parameters
+            // Tetapkan parameter
             $param_id = $id;
             
-            // Attempt to execute the prepared statement
+            // Mencoba untuk melaksanakan pernyataan yang telah disiapkan
             if($stmt->execute()){
                 $result = $stmt->get_result();
                 
                 if($result->num_rows == 1){
-                    /* Fetch result row as an associative array. Since the result set contains only one row, we don't need to use while loop */
+                    // Ambil baris hasil sebagai array asosiatif.
                     $row = $result->fetch_array(MYSQLI_ASSOC);
                     
-                    // Retrieve individual field value
+                    // Ambil nilai bidang individu
                     $name = $row["name"];
                     $color = $row["color"];
                 } else{
-                    // URL doesn't contain valid id. Redirect to error page
+                    // URL tidak berisi id yang valid Redirect ke halaman error
                     header("location: error.php");
                     exit();
                 }
                 
             } else{
-                echo "Oops! Something went wrong. Please try again later.";
+                echo "Ups! Ada yang salah. Silakan coba lagi nanti.";
             }
         }
         
-        // Close statement
+        // Tutup pernyataan
         $stmt->close();
         
-        // Close connection
+        // Tutup koneksi
         $mysqli->close();
     }  else{
-        // URL doesn't contain id parameter. Redirect to error page
+        // URL tidak berisi parameter id Redirect ke halaman error
         header("location: error.php");
         exit();
     }
@@ -115,7 +115,7 @@ if(isset($_POST["name"]) && !empty($_POST["name"])){
    <head>
       <meta charset="UTF-8">
       <title>Update Label</title>
-      <!-- add favicon -->
+      <!-- tambahkan favicon -->
       <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -134,9 +134,9 @@ if(isset($_POST["name"]) && !empty($_POST["name"])){
             <div class="row">
                <div class="col-md-12">
                   <div class="page-header">
-                     <h2>Update Record</h2>
+                     <h2>Perbarui Data</h2>
                   </div>
-                  <p>Please edit the input values and submit to update the record.</p>
+                  <p>Harap edit nilai masukan dan kirimkan untuk memperbarui rekaman.</p>
                   <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
                      <div class="form-group">
                         <label>Id</label>

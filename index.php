@@ -4,15 +4,15 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <title>Label Manager</title>
-      <!-- add favicon -->
+      <!--- tambahkan favicon -->
       <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-      <!-- when press N will go to create page -->
+      <!-- saat tekan N akan masuk halaman buat data -->
       <script> document.onkeydown = checkKey; function checkKey(e) { e = e || window.event; if (e.keyCode == '78') { window.open("create.php","_self")}}</script>
-      <!-- function to count how many data showing -->
+      <!-- berfungsi untuk menghitung berapa banyak data yang ditampilkan -->
       <script> $(function(){ var count = $('table tr').length; var data = count-1; document.getElementById("title").innerHTML = 'Label Lists: ' + data;})</script>
       <style type="text/css">
          .wrapper{
@@ -41,10 +41,10 @@
                      <a href="create.php" code="1" class="btn btn-success float-right">+ Add New Label</a>
                   </div>
                   <?php
-                     // Include config file
+                     // Sertakan file konfigurasi
                      require_once 'config.php';
                      
-                     // Attempt select query execution
+                     // Mencoba pilih eksekusi query
                      $sql = "SELECT * FROM label";
                      if($result = $mysqli->query($sql)){
                          if($result->num_rows > 0){
@@ -75,10 +75,10 @@
                              // Free result set
                              $result->free();
                          } else{
-                             echo "<p class='lead'><em>No records were found.</em></p>";
+                             echo "<p class='lead'><em>Tidak ada catatan yang ditemukan.</em></p>";
                          }
                      } else{
-                         echo "ERROR: Could not able to execute $sql. " . $mysqli->error;
+                         echo "KESALAHAN: Tidak dapat melakukan eksekusi $sql. " . $mysqli->error;
                      }
                      
                      // Close connection

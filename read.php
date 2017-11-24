@@ -1,58 +1,60 @@
 <?php 
-// Check existence of id parameter before processing further
+// Cek adanya parameter id sebelum melanjutkan lebih jauh
 if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
-    // Include config file
+    // Sertakan file konfigurasi
     require_once 'config.php';
     
-    // Prepare a select statement
+    // Siapkan pernyataan pilih
     $sql = "SELECT * FROM label WHERE id = ?";
     
     if($stmt = $mysqli->prepare($sql)){
-        // Bind variables to the prepared statement as parameters
+        // Bind variabel ke pernyataan yang disiapkan sebagai parameter
         $stmt->bind_param("i", $param_id);
         
-        // Set parameters
+        // Tetapkan parameter
         $param_id = trim($_GET["id"]);
         
-        // Attempt to execute the prepared statement
+        // Mencoba untuk melaksanakan pernyataan yang telah disiapkan
         if($stmt->execute()){
             $result = $stmt->get_result();
             
             if($result->num_rows == 1){
-                /* Fetch result row as an associative array. Since the result set contains only one row, we don't need to use while loop */
+                // Ambil baris hasil sebagai array asosiatif.
                 $row = $result->fetch_array(MYSQLI_ASSOC);
                 
-                // Retrieve individual field value                
+                // Ambil nilai bidang individu  
                 $name = $row["name"];
                 $color = $row["color"];
+				
             } else{
-                // URL doesn't contain valid id parameter. Redirect to error page
+                // URL tidak berisi parameter id yang valid Redirect ke halaman error
                 header("location: error.php");
                 exit();
             }
             
         } else{
-            echo "Oops! Something went wrong. Please try again later.";
+            echo "Ups! Ada yang salah. Silakan coba lagi nanti.";
         }
     }
      
-    // Close statement
+    // Tutup pernyataan
     $stmt->close();
     
-    // Close connection
+    // Tutup koneksi
     $mysqli->close();
 } else{
-    // URL doesn't contain id parameter. Redirect to error page
+    // URL tidak berisi parameter id Redirect ke halaman error
     header("location: error.php");
     exit();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
       <title>Detail Biodata</title>
-      <!-- add favicon -->
+      <!-- tambahkan favicon -->
       <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -74,7 +76,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
             <div class="row">
                 <div class="col-md-12">
                     <div class="page-header">
-                        <h1>Detail Record</h1>
+                        <h1>Detail Bio</h1>
                     </div>
                     <div class="form-group">
                         <label>Id</label>
